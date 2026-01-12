@@ -84,7 +84,6 @@ All components implemented as reusable, neutral primitives:
 - [x] **Zero Prettier violations** - All code formatted
 - [x] **100% type coverage** - Every function typed
 - [x] **Zero unused dependencies** - Lean package.json
-- [x] **Fast cold start** - ~2.5 seconds (empty app)
 
 **Status:** Production-grade code quality achieved.
 
@@ -152,12 +151,6 @@ Types & Utils (core logic)
 - **Prettier violations:** 0
 - **Unused imports:** 0
 - **Unused variables:** 0
-
-### Performance
-
-- **Bundle size:** ~1.2 MB (JS only, gzipped)
-- **Cold start:** 2.5 seconds
-- **Memory baseline:** ~80 MB
 
 ### Linting
 
