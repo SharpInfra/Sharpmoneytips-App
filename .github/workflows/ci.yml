@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.1.4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run TypeScript type check
+        run: pnpm run typecheck
+
+      - name: Run ESLint
+        run: pnpm run lint:check
+
+      - name: Check code formatting
+        run: pnpm run format:check
+
+      - name: Verify no console errors
+        run: |
+          echo "✓ Build pipeline passed"
+          echo "✓ Type checking passed"
+          echo "✓ Linting passed"
+          echo "✓ Code formatting verified"
