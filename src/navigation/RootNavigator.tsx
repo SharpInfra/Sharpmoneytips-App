@@ -12,6 +12,7 @@ import { AuthScreen } from '@screens/index';
 import { AppNavigator } from './AppNavigator';
 import { Loader } from '@components/index';
 import { View } from 'react-native';
+import { DesignLabScreen } from '@dev/DesignLabScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ export const RootNavigator: FC = () => {
           headerShown: false,
         }}
       >
+        {__DEV__ ? <Stack.Screen name="DesignLab" component={DesignLabScreen} /> : null}
         {!isAuthenticated ? (
           <Stack.Screen name="Auth" component={AuthScreen} />
         ) : (

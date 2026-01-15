@@ -38,7 +38,8 @@
       "@i18n/*": ["src/i18n/*"],
       "@utils/*": ["src/utils/*"],
       "@types": ["src/types"],
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@dev/*": ["src/dev/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
