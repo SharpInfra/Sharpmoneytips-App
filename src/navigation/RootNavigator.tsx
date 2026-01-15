@@ -12,7 +12,14 @@ import { AuthScreen } from '@screens/index';
 import { AppNavigator } from './AppNavigator';
 import { Loader } from '@components/index';
 import { View } from 'react-native';
-import { DesignLabScreen } from '@dev/DesignLabScreen';
+
+// DEV-only import
+let DesignLabScreen: FC | null = null;
+if (__DEV__) {
+  // Note: require is necessary to avoid bundling src/dev into production builds
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  DesignLabScreen = require('@dev/DesignLabScreen').DesignLabScreen;
+}
 
 const Stack = createNativeStackNavigator();
 
@@ -60,7 +67,9 @@ export const RootNavigator: FC = () => {
           headerShown: false,
         }}
       >
-        {__DEV__ ? <Stack.Screen name="DesignLab" component={DesignLabScreen} /> : null}
+        {__DEV__ && DesignLabScreen ? (
+          <Stack.Screen name="DesignLab" component={DesignLabScreen} />
+        ) : null}
         {!isAuthenticated ? (
           <Stack.Screen name="Auth" component={AuthScreen} />
         ) : (
