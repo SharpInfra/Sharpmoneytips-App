@@ -111,6 +111,35 @@ pnpm android       # Android emulator
 pnpm ios           # iOS simulator (macOS only)
 ```
 
+### UI Preview (DesignLab)
+
+This app includes a **DEV-only DesignLab screen** for rapid UI iteration without routing through auth/app logic.
+
+**How to access DesignLab:**
+
+1. **Start Metro:**
+
+   ```bash
+   pnpm start
+   ```
+
+2. **Open web preview (fastest for UI work):**
+
+   ```
+   Press 'w' in the terminal
+   ```
+
+   Browser opens → Tap/navigate to **DesignLab** screen
+
+3. **Or scan QR code with Expo Go:**
+   ```
+   Scan QR from terminal
+   Open in Expo Go app
+   Navigate to DesignLab
+   ```
+
+**Important:** DesignLab is **DEV-only** (uses `__DEV__` guard + dynamic require). It will **never** appear in production builds. See [src/navigation/RootNavigator.tsx](src/navigation/RootNavigator.tsx) for implementation.
+
 ### Quality Checks
 
 ```bash

@@ -27,7 +27,7 @@
       "package": "com.sharpmoneytips.mobile"
     },
     "web": {
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
     "splash": {
