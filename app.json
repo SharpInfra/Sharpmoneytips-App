@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "extra": {
-      "apiUrl": "https://api.sharpmoneytips.local/v1"
+      "apiUrl": "https://sharpmoneytips-backend22-production.up.railway.app"
     },
     "ios": {
       "supportsTablet": true,
