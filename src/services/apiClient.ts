@@ -3,11 +3,9 @@
  * Handles all HTTP communication with tenant-aware headers and error handling
  */
 
-import Constants from 'expo-constants';
 import { ApiResponse, ApiError, TenantContext, AuthSession } from '@types';
 
-const API_BASE_URL =
-  Constants.expoConfig?.extra?.['apiUrl'] || 'https://api.sharpmoneytips.local/v1';
+const API_BASE_URL = 'https://railway.app';
 
 /**
  * Main API client

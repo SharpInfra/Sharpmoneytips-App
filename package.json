@@ -1,7 +1,7 @@
 {
   "name": "sharpmoneytips-mobile",
   "description": "Fortune-50 grade B2C mobile app foundation (React Native + Expo + TypeScript)",
-  "main": "expo-router/entry",
+  "main": "index.ts",
   "version": "3.0.0",
   "packageManager": "pnpm@9.1.4",
   "engines": {
@@ -9,11 +9,11 @@
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "start": "expo start",
-    "start:web": "expo start --web",
+    "start": "expo start --host localhost --port 8080",
+    "start:web": "expo start --web --host localhost --port 8080 --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "web": "expo start --web --host localhost --port 8080 --clear",
     "build": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx --fix",
@@ -25,6 +25,7 @@
     "ci": "pnpm run typecheck && pnpm run lint:check && pnpm run format:check"
   },
   "dependencies": {
+    "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
@@ -53,7 +54,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@types/react": "~19.1.0",
+    "@types/react": "~19.1.17",
     "@types/react-native": "^0.73.0",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
@@ -63,7 +64,7 @@
     "eslint-plugin-react": "^7.36.0",
     "eslint-plugin-react-native": "^5.0.0",
     "prettier": "^3.3.3",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "private": true
 }
