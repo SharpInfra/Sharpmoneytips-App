@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "extra": {
-      "apiUrl": "https://sharpmoneytips-backend22-production.up.railway.app"
+      "apiUrl": "https://sharpmoneytips-backend22-production.up.railway.app",
+      "eas": {
+        "projectId": "38c2273e-8932-4fe8-8855-3a3c01c79e3b"
+      }
     },
     "ios": {
       "supportsTablet": true,
@@ -47,7 +50,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
