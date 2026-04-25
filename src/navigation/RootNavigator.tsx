@@ -32,7 +32,7 @@ export type RootStackParamList = {
  * Root navigation component with auth state handling
  */
 export const RootNavigator: FC = () => {
-  const { session } = useAuthStore();
+  const { session, setSession } = useAuthStore();
   const [isInitializing, setIsInitializing] = useState(true);
 
   // Simulate checking for existing session on app start
@@ -71,7 +71,20 @@ export const RootNavigator: FC = () => {
           <Stack.Screen name="DesignLab" component={DesignLabScreen} />
         ) : null}
         {!isAuthenticated ? (
-          <Stack.Screen name="Auth" component={AuthScreen} />
+          <Stack.Screen name="Auth">
+            {() => (
+              <AuthScreen
+                onLoginSuccess={() =>
+                  setSession({
+                    userId: 'demo',
+                    token: 'demo-token',
+                    refreshToken: 'demo-refresh',
+                    expiresAt: Date.now() + 86_400_000,
+                  })
+                }
+              />
+            )}
+          </Stack.Screen>
         ) : (
           <Stack.Screen name="App" component={AppNavigator} />
         )}
