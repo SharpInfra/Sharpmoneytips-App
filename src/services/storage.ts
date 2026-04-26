@@ -9,6 +9,11 @@ const STORAGE_KEYS = {
   AUTH_SESSION: '@app:auth_session',
   TENANT_CONTEXT: '@app:tenant_context',
   USER_PREFERENCES: '@app:user_preferences',
+  TIPS_CACHE: '@app:tips_cache',
+  RUNTIME_CONFIG: '@app:runtime_config',
+  OTA_HEALTH: '@app:ota_health',
+  UI_CONFIG: '@app:ui_config',
+  TENANT_USAGE_METRICS: '@app:tenant_usage_metrics',
 } as const;
 
 /**
