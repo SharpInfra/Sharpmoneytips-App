@@ -3,15 +3,15 @@
  * Handles auth-guarded navigation
  */
 
-import { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuthStore } from '@store/index';
 import { AuthScreen } from '@screens/index';
 import { AppNavigator } from './AppNavigator';
 import { Loader } from '@components/index';
 import { View } from 'react-native';
+import { runtimeEngine } from '@services/runtimeEngine';
 
 // DEV-only import
 let DesignLabScreen: FC | null = null;
@@ -32,25 +32,10 @@ export type RootStackParamList = {
  * Root navigation component with auth state handling
  */
 export const RootNavigator: FC = () => {
-  const { session, setSession } = useAuthStore();
-  const [isInitializing, setIsInitializing] = useState(true);
+  const { session, setSession, isHydrating, isHydrated } = useAuthStore();
+  const navigationRef = useNavigationContainerRef();
 
-  // Simulate checking for existing session on app start
-  useEffect(() => {
-    const initializeAuth = async (): Promise<void> => {
-      try {
-        // TODO: Check for stored session
-        setIsInitializing(false);
-      } catch (error) {
-        console.error('Auth initialization failed:', error);
-        setIsInitializing(false);
-      }
-    };
-
-    initializeAuth();
-  }, []);
-
-  if (isInitializing) {
+  if (isHydrating || !isHydrated) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Loader />
@@ -60,33 +45,61 @@ export const RootNavigator: FC = () => {
 
   const isAuthenticated = !!session;
 
+  if (__DEV__) {
+    console.log('[AuthFlow][RootNavigator] render', {
+      isHydrating,
+      isHydrated,
+      isAuthenticated,
+      hasSession: !!session,
+      sessionUserId: session?.userId ?? null,
+    });
+  }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        const initialRouteName = navigationRef.getCurrentRoute()?.name;
+        if (initialRouteName) {
+          runtimeEngine.trackRouteChange(initialRouteName);
+        }
+      }}
+      onStateChange={() => {
+        const routeName = navigationRef.getCurrentRoute()?.name;
+        if (routeName) {
+          runtimeEngine.trackRouteChange(routeName);
+        }
+      }}
+    >
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}
       >
-        {__DEV__ && DesignLabScreen ? (
-          <Stack.Screen name="DesignLab" component={DesignLabScreen} />
-        ) : null}
         {!isAuthenticated ? (
           <Stack.Screen name="Auth">
             {() => (
               <AuthScreen
-                onLoginSuccess={() =>
+                onLoginSuccess={() => {
+                  if (__DEV__) {
+                    console.log('[AuthFlow][RootNavigator] onLoginSuccess invoked');
+                  }
+
                   setSession({
                     userId: 'demo',
                     token: 'demo-token',
                     refreshToken: 'demo-refresh',
                     expiresAt: Date.now() + 86_400_000,
-                  })
-                }
+                  });
+                }}
               />
             )}
           </Stack.Screen>
         ) : (
-          <Stack.Screen name="App" component={AppNavigator} />
+          <>
+            <Stack.Screen name="App" component={AppNavigator} />
+            {__DEV__ && DesignLabScreen ? <Stack.Screen name="DesignLab" component={DesignLabScreen} /> : null}
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

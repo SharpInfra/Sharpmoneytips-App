@@ -34,6 +34,13 @@ export class ApiClient {
   }
 
   /**
+   * Get base URL
+   */
+  getBaseUrl(): string {
+    return this.baseUrl;
+  }
+
+  /**
    * Build request headers with tenant and auth context
    */
   private getHeaders(): Record<string, string> {
