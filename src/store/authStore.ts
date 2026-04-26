@@ -99,14 +99,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   setSession: (session) => {
-    if (__DEV__) {
-      console.log('[AuthFlow][authStore] setSession', {
-        previousUserId: get().session?.userId ?? null,
-        nextUserId: session?.userId ?? null,
-        hasNextSession: !!session,
-      });
-    }
-
     apiClient.setAuthSession(session);
     set({ session });
     enqueueSessionPersist(session);

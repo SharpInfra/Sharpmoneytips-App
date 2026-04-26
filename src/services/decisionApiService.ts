@@ -48,11 +48,11 @@ const enforceRateLimit = (tenantId: string, endpoint: string): void => {
 export interface DecisionApiOutput {
   tenantId: string;
   strategy?: string;
-  sections?: Array<{
+  sections?: {
     type: string;
     score: number;
     reason?: string;
-  }>;
+  }[];
   userSegment?: string | null;
   branding?: {
     appName?: string;

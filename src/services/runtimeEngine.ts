@@ -122,10 +122,6 @@ export class RuntimeEngine {
         this.setupAppStateListener();
 
         this.isInitialized = true;
-
-        if (__DEV__) {
-          console.log('[RuntimeEngine] Initialization complete');
-        }
       } catch (error) {
         console.error('[RuntimeEngine] Initialization failed:', error);
         throw error;
@@ -146,10 +142,6 @@ export class RuntimeEngine {
       this.appStateSubscription = AppState.addEventListener('change', (state: AppStateStatus) => {
         this.handleAppStateChange(state);
       });
-
-      if (__DEV__) {
-        console.log('[RuntimeEngine] AppState listener configured');
-      }
     } catch (error) {
       console.error('[RuntimeEngine] Failed to setup AppState listener:', error);
     }
@@ -160,10 +152,6 @@ export class RuntimeEngine {
    */
   private async handleAppStateChange(state: AppStateStatus): Promise<void> {
     if (state === 'active') {
-      if (__DEV__) {
-        console.log('[RuntimeEngine] App came to foreground, triggering background checks');
-      }
-
       this.initializeRealtimeChannel();
 
       // Non-blocking background operations
@@ -289,17 +277,18 @@ export class RuntimeEngine {
 
     if (payload) {
       const existingConfig = useUIConfigStore.getState().config;
-      const payloadConfig = uiConfigService.normalizePayload(payload.uiConfig ?? payload, existingConfig);
+      const payloadConfig = uiConfigService.normalizePayload(payload['uiConfig'] ?? payload, existingConfig);
+      const eventType = payload['type'] ?? payload['event'] ?? payload['name'];
 
       if (payloadConfig) {
         useUIConfigStore.getState().setConfig(payloadConfig);
 
-        if (payload.type === 'decision_update' || payload.event === 'decision_update' || payload.name === 'decision_update') {
+        if (eventType === 'decision_update') {
           return;
         }
       }
 
-      if (payload.type === 'decision_update' || payload.event === 'decision_update' || payload.name === 'decision_update') {
+      if (eventType === 'decision_update') {
         try {
           const decisionOutput = await decisionApiService.getDecisions(tenantId);
 

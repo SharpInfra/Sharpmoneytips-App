@@ -45,16 +45,6 @@ export const RootNavigator: FC = () => {
 
   const isAuthenticated = !!session;
 
-  if (__DEV__) {
-    console.log('[AuthFlow][RootNavigator] render', {
-      isHydrating,
-      isHydrated,
-      isAuthenticated,
-      hasSession: !!session,
-      sessionUserId: session?.userId ?? null,
-    });
-  }
-
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -81,10 +71,6 @@ export const RootNavigator: FC = () => {
             {() => (
               <AuthScreen
                 onLoginSuccess={() => {
-                  if (__DEV__) {
-                    console.log('[AuthFlow][RootNavigator] onLoginSuccess invoked');
-                  }
-
                   setSession({
                     userId: 'demo',
                     token: 'demo-token',

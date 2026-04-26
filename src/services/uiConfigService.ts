@@ -123,15 +123,15 @@ const sanitizeDecisionSections = (
       }
 
       const candidate = item as Record<string, unknown>;
-      if (!isHomeSection(candidate.type)) {
+      if (!isHomeSection(candidate['type'])) {
         return null;
       }
 
       return {
-        type: candidate.type,
-        score: normalizeScore(candidate.score),
-        reason: typeof candidate.reason === 'string' && candidate.reason.length > 0
-          ? candidate.reason
+        type: candidate['type'],
+        score: normalizeScore(candidate['score']),
+        reason: typeof candidate['reason'] === 'string' && candidate['reason'].length > 0
+          ? candidate['reason']
           : 'unspecified',
       };
     })
@@ -188,12 +188,12 @@ const mergeUIConfig = (remote: UIConfigResponse | null, cached: UIConfig | null)
   const remoteHome = (remote?.home ?? {}) as Record<string, unknown>;
 
   const fallbackLegacyLayout = base.home.sections.map((section) => section.type);
-  const legacyLayout = sanitizeSectionTypes(remoteHome.layout, fallbackLegacyLayout);
-  const legacyOrder = sanitizeSectionTypes(remoteHome.order, fallbackLegacyLayout).filter((section) => legacyLayout.includes(section));
+  const legacyLayout = sanitizeSectionTypes(remoteHome['layout'], fallbackLegacyLayout);
+  const legacyOrder = sanitizeSectionTypes(remoteHome['order'], fallbackLegacyLayout).filter((section) => legacyLayout.includes(section));
   const legacyDecisions = toLegacyDecisions(legacyLayout, legacyOrder);
 
-  const sections = sanitizeDecisionSections(remoteHome.sections, legacyDecisions.length > 0 ? legacyDecisions : base.home.sections);
-  const strategy = isHomeStrategy(remoteHome.strategy) ? remoteHome.strategy : base.home.strategy;
+  const sections = sanitizeDecisionSections(remoteHome['sections'], legacyDecisions.length > 0 ? legacyDecisions : base.home.sections);
+  const strategy = isHomeStrategy(remoteHome['strategy']) ? remoteHome['strategy'] : base.home.strategy;
 
   return {
     tenantId: typeof remote?.tenantId === 'string' && remote.tenantId.length > 0
@@ -202,10 +202,10 @@ const mergeUIConfig = (remote: UIConfigResponse | null, cached: UIConfig | null)
     home: {
       sections,
       strategy,
-      features: sanitizeFeatures(remoteHome.features, base.home.features),
+      features: sanitizeFeatures(remoteHome['features'], base.home.features),
       sectionFlags: {
         ...(base.home.sectionFlags ?? {}),
-        ...sanitizeSectionFlags(remoteHome.sectionFlags),
+        ...sanitizeSectionFlags(remoteHome['sectionFlags']),
       },
     },
     userSegment: typeof remote?.userSegment === 'string' ? remote.userSegment : base.userSegment,

@@ -91,15 +91,12 @@ export class RealtimeEventEngine {
       if (eventName && this.options.eventNames.includes(eventName)) {
         this.options.onTipsUpdate();
       }
-    } catch (error) {
-      if (__DEV__) {
-        console.log('[RealtimeEvent] Ignoring non-JSON message');
-      }
+    } catch {
     }
   }
 
   private extractEventName(payload: Record<string, unknown>): string | null {
-    const candidate = payload.type ?? payload.event ?? payload.name;
+    const candidate = payload['type'] ?? payload['event'] ?? payload['name'];
 
     if (typeof candidate !== 'string') {
       return null;

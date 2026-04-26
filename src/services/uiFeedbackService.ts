@@ -56,13 +56,20 @@ class UIFeedbackService {
         const tenantId = useUIConfigStore.getState().config.tenantId;
         const usage = await usageTrackingService.getTenantMetrics(tenantId);
         const billing = await usageTrackingService.getBillingMetrics(tenantId);
+        const usagePayload: Record<string, number | string> = {
+          tenantId: usage.tenantId,
+          requests: usage.requests,
+          decisionsServed: usage.decisionsServed,
+          feedbackEvents: usage.feedbackEvents,
+          lastUpdatedAt: usage.lastUpdatedAt,
+        };
 
         await decisionApiService.postFeedback(tenantId, {
           events: payload,
           metrics,
           weightHints,
           modelVersion: 'decision-model-v1',
-          usage,
+          usage: usagePayload,
           billing,
         });
       } catch (error) {

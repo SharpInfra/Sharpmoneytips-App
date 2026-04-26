@@ -46,11 +46,6 @@ const styles = StyleSheet.create({
 
 export const AuthScreen: FC<AuthScreenProps> = ({ onLoginSuccess }) => {
   const handleLogin = (): void => {
-    if (__DEV__) {
-      console.log('[AuthFlow][AuthScreen] Continue with Demo pressed', {
-        hasOnLoginSuccess: typeof onLoginSuccess === 'function',
-      });
-    }
     onLoginSuccess?.();
   };
 

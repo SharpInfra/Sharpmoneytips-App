@@ -473,7 +473,7 @@ export const HomeScreen: FC<HomeScreenProps> = ({ onLogout }) => {
         {shouldShowEmptyState && (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyTitle}>No picks today</Text>
-            <Text style={styles.emptyMessage}>Check back later for today's picks</Text>
+            <Text style={styles.emptyMessage}>Check back later for today&apos;s picks</Text>
           </View>
         )}
 
